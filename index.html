@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Portfolio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:Arial;background:#f5f5f5;color:#333;}
+
+/* INTRO */
+#intro{
+position:fixed;inset:0;background:black;color:white;
+display:flex;align-items:center;justify-content:center;
+z-index:2000;
+animation:fadeOut 0.7s forwards;
+animation-delay:1.5s;
+}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+
+/* NAV */
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:12px 16px;background:white;position:sticky;top:0;z-index:1000;
+}
+nav{display:flex;}
+nav a{margin-left:16px;text-decoration:none;color:#555;position:relative;}
+nav a::after{content:"";position:absolute;height:2px;width:0;background:black;bottom:-4px;left:0;transition:.3s;}
+nav a:hover::after{width:100%;}
+.menu-toggle{display:none;font-size:24px;cursor:pointer;}
+
+/* HERO */
+.hero{
+min-height:100vh;display:flex;flex-direction:column;
+align-items:center;justify-content:center;text-align:center;
+position:relative;
+}
+.shape{position:absolute;border-radius:50%;opacity:.2;animation:float 8s infinite;}
+.shape1{width:120px;height:120px;background:black;top:20%;left:10%;}
+.shape2{width:80px;height:80px;background:gray;top:60%;right:15%;}
+.shape3{width:60px;height:60px;background:#999;bottom:20%;left:40%;}
+@keyframes float{50%{transform:translateY(-20px);}}
+
+/* SECTIONS */
+.section,.about,.contact{
+opacity:0;transform:translateY(20px);transition:.8s;
+padding:160px 16px; /* longer spacing */
+min-height:auto;
+}
+.show{opacity:1;transform:translateY(0);}
+
+/* PROJECTS GRID */
+.projects{display:grid;gap:12px;}
+
+/* PROJECT CARDS SMALLER */
+.projects .card {
+  min-height:100px;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  border-radius:10px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.08);
+  background:white;
+  transition:transform 0.3s, box-shadow 0.3s;
+  text-align:center;
+}
+.projects .card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 5px 12px rgba(0,0,0,0.12);
+}
+.img-placeholder{
+  height:80px;
+  width:100%;
+  max-width:200px;
+  background:#ddd;
+  border-radius:8px;
+  margin-bottom:8px;
+}
+.projects h4{
+  font-size:16px;
+  font-weight:500;
+  color:#333;
+}
+
+/* Why Me cards */
+#why .card {
+  min-height:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  font-size:16px;
+  text-align:center;
+}
+#why .experience-card {
+  min-height:160px;
+  padding:20px;
+}
+.experience-card h1{font-size:50px;color:#ff6a2c;}
+.experience-card h3{font-size:20px;color:#3b0a0a;}
+
+/* ABOUT */
+.about{padding:160px 20px;background:white;}
+.about-title{text-align:center;margin-bottom:30px;}
+.about-row{display:flex;gap:40px;justify-content:center;align-items:center;}
+.about-card{background:#eee;padding:15px;border-radius:15px;}
+.about-card img{width:200px;height:200px;border-radius:12px;object-fit:cover;}
+.about-text{max-width:400px;font-size:16px;}
+
+/* CONTACT */
+.contact{text-align:center;padding:160px 16px;}
+.contact-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+  align-items:flex-start;
+  max-width:800px;
+  margin:0 auto;
+}
+.contact-info{
+  flex:1;
+  min-width:200px;
+  background:#eee;
+  padding:15px;
+  border-radius:10px;
+  font-size:14px;
+  text-align:center;
+}
+.contact-form{
+  flex:1;
+  min-width:200px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.contact-form input,
+.contact-form textarea{
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+  width:100%;
+}
+.contact-form textarea{
+  resize:none;
+  height:100px;
+}
+.contact-form button{
+  padding:10px;
+  background:#ff6a2c;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.contact-form button:hover{
+  background:#e05520;
+}
+
+/* CV BUTTON IN CONTACT */
+#cv-btn{
+  margin-top:20px;
+  padding:10px 20px;
+  background:#333;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+#cv-btn:hover{
+  background:#555;
+}
+
+/* MEDIA QUERIES */
+@media(min-width:600px){
+.projects{grid-template-columns:repeat(2,1fr);}
+}
+@media(min-width:900px){
+.projects{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:768px){
+nav{position:absolute;top:60px;right:0;background:white;flex-direction:column;width:200px;transform:translateX(100%);}
+nav.active{transform:translateX(0);}
+.menu-toggle{display:block;}
+.about-row{flex-direction:column;}
+.contact-container{flex-direction:column;gap:15px;}
+}
+</style>
+</head>
+<body>
+
+<div id="intro"><h1>Ashutosh Portfolio</h1></div>
+
+<header>
+<h2>Ashutosh</h2>
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<nav id="navLinks">
+<a href="#home">Home</a>
+<a href="#residential">Residential</a>
+<a href="#commercial">Commercial</a>
+<a href="#future">Future</a>
+<a href="#about">About</a>
+<a href="#why">Why Me</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section id="home" class="hero show">
+<div class="shape shape1"></div>
+<div class="shape shape2"></div>
+<div class="shape shape3"></div>
+<h1>Modern Architecture Portfolio</h1>
+<p>Explore projects across residential, commercial, and future-focused designs.</p>
+</section>
+
+<section id="residential" class="section">
+<h2 style="text-align:center;margin-bottom:20px;">Residential</h2>
+<div class="projects" id="residentialList"></div>
+</section>
+
+<section id="commercial" class="section">
+<h2 style="text-align:center;margin-bottom:20px;">Commercial</h2>
+<div class="projects" id="commercialList"></div>
+</section>
+
+<section id="future" class="section">
+<h2 style="text-align:center;margin-bottom:20px;">Future</h2>
+<div class="projects" id="futureList"></div>
+</section>
+
+<section id="about" class="about">
+<h2 class="about-title">About Me</h2>
+<div class="about-row">
+<div class="about-card">
+<img src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1">
+</div>
+<div class="about-text">
+<p>I design spaces that balance beauty, purpose, and sustainability.</p>
+</div>
+</div>
+</section>
+
+<section id="why" class="section">
+<h2 style="text-align:center;margin-bottom:20px;">Why Choose Me</h2>
+<div class="projects">
+<div class="card experience-card">
+<h1><span id="experienceCount">0</span>+</h1>
+<h3>Years of Educational Experience</h3>
+</div>
+<div class="card"><h4>Creative Design</h4></div>
+<div class="card"><h4>Attention to Detail</h4></div>
+<div class="card"><h4>Sustainable Approach</h4></div>
+<div class="card"><h4>Client Focused</h4></div>
+<div class="card"><h4>Modern Tools</h4></div>
+<div class="card"><h4>Reliable Delivery</h4></div>
+</div>
+</section>
+
+<section id="contact" class="contact">
+<h2 style="text-align:center;margin-bottom:20px;">Contact Me</h2>
+<div class="contact-container">
+  <div class="contact-info">
+    <p><strong>Email:</strong> ashutosh@example.com</p>
+    <p><strong>Phone:</strong> +91 123 456 7890</p>
+    <p><strong>Location:</strong> Pune, India</p>
+    <a id="cv-btn" href="cv.pdf" download>My CV</a>
+  </div>
+  <form class="contact-form" id="contactForm">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+    <div id="formMessage" style="margin-top:10px;color:green;display:none;"></div>
+  </form>
+</div>
+</section>
+
+<script>
+// Start at Home
+window.addEventListener("load", () => { window.scrollTo(0,0); });
+
+// Projects
+const projects=[
+  {title:"Modern House",category:"Residential"},
+  {title:"Glass Villa",category:"Residential"},
+  {title:"Urban Cottage",category:"Residential"},
+  {title:"Office Hub",category:"Commercial"},
+  {title:"Urban Tower",category:"Commercial"},
+  {title:"Business Plaza",category:"Commercial"},
+  {title:"Sky Bridge",category:"Future"},
+  {title:"Eco Retreat",category:"Future"},
+  {title:"Smart Dome",category:"Future"}
+];
+function render(cat,id){
+const el=document.getElementById(id);
+projects.filter(p=>p.category===cat).forEach(p=>{
+el.innerHTML+=`<div class="card"><div class="img-placeholder"></div><h4>${p.title}</h4></div>`;
+});
+}
+render("Residential","residentialList");
+render("Commercial","commercialList");
+render("Future","futureList");
+
+// Menu
+function toggleMenu(){document.getElementById("navLinks").classList.toggle("active");}
+
+// Scroll animation
+const obs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){e.target.classList.add("show");}
+else{e.target.classList.remove("show");}
+});
+},{threshold:.2});
+document.querySelectorAll(".section,.about,.contact").forEach(el=>obs.observe(el));
+
+// Counter
+let counted=false;
+function animateCounter(){
+if(counted)return;
+counted=true;
+const el=document.getElementById("experienceCount");
+let c=0;
+const target=20;
+const i=setInterval(()=>{
+c++;
+el.innerText=c;
+if(c>=target)clearInterval(i);
+},80);
+}
+const whySection=document.getElementById("why");
+const whyObserver=new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){animateCounter();whyObserver.unobserve(entry.target);}
+});
+},{threshold:0.5});
+whyObserver.observe(whySection);
+
+// Contact form submission to Google Sheets
+const form=document.getElementById("contactForm");
+const messageDiv=document.getElementById("formMessage");
+form.addEventListener("submit", e=>{
+e.preventDefault();
+const url="https://script.google.com/macros/s/AKfycbxQBvxGwMgtrQDkHk_8a16NwAYMHvN-WwvPZPeJtxmnLEv9fXNVcBBtu1m2a4VuTx0/exec"; // replace with your Apps Script Web App URL
+const formData=new FormData(form);
+fetch(url,{method:"POST",body:formData})
+.then(res=>{
+messageDiv.innerText="Message sent successfully!";
+messageDiv.style.display="block";
+form.reset();
+setTimeout(()=>{messageDiv.style.display="none";},3000);
+})
+.catch(err=>{
+messageDiv.innerText="Error sending message. Try again!";
+messageDiv.style.display="block";
+setTimeout(()=>{messageDiv.style.display="none";},3000);
+console.log(err);
+});
+});
+</script>
+</body>
+</html>
